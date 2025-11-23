@@ -4,8 +4,11 @@ import mongoose, { Document } from 'mongoose';
 export interface IFlashcard extends Document {
   question: string;
   answer: string;
+  details?: string;
+  images?: string[];
   difficulty: 'easy' | 'medium' | 'hard';
   tags: string[];
-  userId: mongoose.Types.ObjectId; // Reference to User who owns this card
+  userId?: mongoose.Types.ObjectId | null;
+  deckId: mongoose.Types.ObjectId;
 }
 

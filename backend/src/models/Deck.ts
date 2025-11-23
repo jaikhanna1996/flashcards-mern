@@ -23,7 +23,12 @@ const deckSchema = new Schema<IDeck>(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'Deck must belong to a user'],
+      default: null, // null for default decks, ObjectId for user decks
+    },
+    type: {
+      type: String,
+      enum: ['default', 'user'],
+      default: 'user', // Default to 'user', set to 'default' for system decks
     },
   }
 );

@@ -14,6 +14,14 @@ const flashcardSchema = new Schema<IFlashcard>(
       required: [true, 'Please provide an answer'],
       trim: true,
     },
+    details: {
+      type: String,
+      trim: true,
+    },
+    images: {
+      type: [String],
+      default: [],
+    },
     difficulty: {
       type: String,
       enum: ['easy', 'medium', 'hard'],
@@ -26,8 +34,14 @@ const flashcardSchema = new Schema<IFlashcard>(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'Flashcard must belong to a user'],
-    }}
+      default: null, // null for default deck cards, ObjectId for user cards
+    },
+    deckId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Deck',
+      required: [true, 'Flashcard must belong to a deck'],
+    },
+  }
 );
 
 

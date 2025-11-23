@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import mongooseConnect from './config/db';
 import healthRouter from './routes/health';
+import authRouter from './routes/authRouter';
+import deckRouter from './routes/deckRouter';
+import flashcardRouter from './routes/flashcardRouter';
 import errorHandler from './middleware/errorHandler';
 
 dotenv.config();
@@ -13,6 +16,9 @@ app.use(express.json());
 
 // routes
 app.use('/api/health', healthRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/decks', deckRouter);
+app.use('/api/flashcards', flashcardRouter);
 
 // error handler
 app.use(errorHandler);
