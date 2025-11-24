@@ -1,5 +1,6 @@
 import React from "react";
 import ThemePicker from "../ThemePicker";
+import "./NavBar.css";
 
 type Props = {
   isAuthenticated?: boolean;
@@ -21,27 +22,21 @@ export default function NavBar({
       </div>
 
       <div className="flex items-center gap-4">
+        <div className="hidden sm:block text-sm muted">Learn & Review</div>
         <ThemePicker />
         {!isAuthenticated ? (
           <button
             onClick={() => onAuthOpen?.("login")}
-            className="
-    px-5 py-2 text-sm font-semibold rounded-full 
-    bg-[color:var(--accent)]
-    text-[color:var(--accent-foreground)]
-    shadow-lg
-    hover:shadow-[0_0_12px_var(--accent)]
-    hover:brightness-110
-    active:scale-95
-    transition-all duration-200
-  "
+            className="px-3 py-1 rounded text-sm nav-login-btn"
+            type="button"
           >
             Login
           </button>
         ) : (
           <button
             onClick={onLogout}
-            className="px-3 py-1 rounded border text-sm"
+            className="px-3 py-1 rounded text-sm nav-logout-btn"
+            type="button"
           >
             Logout
           </button>
