@@ -3,3 +3,66 @@
 @tailwind utilities;
 
 /* ...existing code... */
+
+/* Theme tokens (use document.documentElement.style.setProperty to change at runtime) */
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --accent: #6366f1; /* default accent */
+  --accent-foreground: #ffffff;
+}
+
+/* Dark theme overrides (switch by setting data-theme="dark" on <html>) */
+:root[data-theme='dark'] {
+  --bg: #0b1220;
+  --surface: #0f1724;
+  --text: #e6eef8;
+  --muted: #9ca3af;
+  --accent: #7c3aed;
+  --accent-foreground: #ffffff;
+}
+
+/* Simple utility classes that use the tokens (can be used alongside Tailwind classes) */
+.app-bg {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.surface {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* Keyframes and animation for card in NavBar */
+@keyframes fc-slide {
+  0% { transform: translateY(0) translateX(-6px) rotate(-4deg); opacity: 0.9; }
+  50% { transform: translateY(-4px) translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(0) translateX(6px) rotate(4deg); opacity: 0.9; }
+}
+
+.card-animate {
+  animation: fc-slide 1.6s ease-in-out infinite alternate;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}

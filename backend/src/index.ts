@@ -24,11 +24,12 @@ app.use('/api/flashcards', flashcardRouter);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || '0.0.0.0';
 
 async function start() {
   await mongooseConnect();
-  app.listen(PORT, () => {
-    console.log(`Backend running on http://localhost:${PORT}`);
+  app.listen(Number(PORT), HOST, () => {
+    console.log(`Backend running on http://${HOST}:${PORT}`);
   });
 }
 
