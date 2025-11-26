@@ -14,13 +14,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// routes
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/decks', deckRouter);
 app.use('/api/flashcards', flashcardRouter);
 
-// error handler
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;

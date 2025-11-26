@@ -86,7 +86,6 @@ export const createDeck = async (req: AuthRequest, res: Response) => {
       });
     }
 
-    // Create deck
     const deck = await Deck.create({
       name,
       description,
@@ -110,6 +109,40 @@ export const createDeck = async (req: AuthRequest, res: Response) => {
   }
 };
 
+
+export const updateDeck = async (req: AuthRequest, res: Response) => {
+  try {
+    const deckId = req.params.id;
+    const { name, description } = req.body;
+    const userId = req.user?._id;
+
+    const deck = await Deck.findOne({ _id: deckId, type: 'user', userId });
+    if (!deck) {
+      return res.status(404).json({
+        success: false,
+        message: 'Deck not found or not editable',
+      });
+    }
+
+    if (name !== undefined) deck.name = name;
+    if (description !== undefined) deck.description = description;
+
+    await deck.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Deck updated successfully',
+      data: {
+        deck,
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error',
+    });
+  }
+};
 
 export const deleteDeck = async (req: AuthRequest, res: Response) => {
   try {

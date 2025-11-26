@@ -35,7 +35,6 @@ export default function RegisterForm({ onRegister, onSwitchToLogin }: Props) {
       const data = await res.json().catch(() => ({} as any));
       const token = data?.data?.token ??  '';
       if (!token) {
-        console.warn('Register response missing token', data);
         setError('No token returned from server');
         setLoading(false);
         return;

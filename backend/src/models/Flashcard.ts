@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { IFlashcard } from '../interfaces/flashcard.interface';
 
-// Create the Flashcard schema
 const flashcardSchema = new Schema<IFlashcard>(
   {
     question: {

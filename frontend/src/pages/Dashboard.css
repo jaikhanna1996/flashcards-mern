@@ -1,0 +1,58 @@
+/* Button system for Dashboard (component-scoped) */
+
+/* base button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .12s, color .12s, border-color .12s, transform .08s;
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+/* outline / secondary (uses accent for border/text) */
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-outline:hover,
+.btn-outline:focus {
+  background: rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* primary / filled accent */
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* disabled look */
+.btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+/* ensure consistent spacing for groups */
+section .btn + .btn {
+  margin-left: 0.5rem;
+}

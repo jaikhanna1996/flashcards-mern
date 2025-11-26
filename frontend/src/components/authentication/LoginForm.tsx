@@ -38,7 +38,6 @@ export default function LoginForm({ onLogin, onSwitchToSignup }: Props) {
       const data = await res.json().catch(() => ({} as any));
       const token = data?.data?.token ??  '';
       if (!token) {
-        console.warn('Login response missing token', data);
         setError('No token returned from server');
         setLoading(false);
         return;

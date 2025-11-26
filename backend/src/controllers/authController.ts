@@ -40,10 +40,8 @@ export const register = async (req: Request, res: Response) => {
       password, // This will be hashed by the pre-save hook
     });
 
-    // Generate JWT token for the new user
     const token = generateToken(user._id.toString());
 
-    // Don't send password back (even though it's hashed)
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
@@ -120,7 +118,6 @@ export const login = async (req: Request, res: Response) => {
 
 export const getMe = async (req: AuthRequest, res: Response) => {
   try {
-    // We know user exists because middleware already verified token
     const user = req.user;
 
     res.status(200).json({

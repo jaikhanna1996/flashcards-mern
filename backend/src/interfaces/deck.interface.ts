@@ -1,6 +1,5 @@
 import mongoose, { Document } from 'mongoose';
 
-// Interface for Deck data structure
 export interface IDeck extends Document {
   name: string;
   description?: string;

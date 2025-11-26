@@ -1,6 +1,4 @@
-// Convert hex string "#rrggbb" or "rrggbb" to {r,g,b}
 export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
-	// remove leading #
 	const h = hex.replace('#', '').trim();
 	if (h.length === 3) {
 		const r = parseInt(h[0] + h[0], 16);
@@ -17,7 +15,6 @@ export function hexToRgb(hex: string): { r: number; g: number; b: number } | nul
 	return null;
 }
 
-// relative luminance per WCAG
 function luminance({ r, g, b }: { r: number; g: number; b: number }): number {
 	const srgb = [r, g, b].map((v) => {
 		const s = v / 255;
@@ -26,7 +23,6 @@ function luminance({ r, g, b }: { r: number; g: number; b: number }): number {
 	return 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
 }
 
-// contrast ratio between two hex colors
 export function contrastRatio(hex1: string, hex2: string): number {
 	const rgb1 = hexToRgb(hex1);
 	const rgb2 = hexToRgb(hex2);
@@ -38,10 +34,8 @@ export function contrastRatio(hex1: string, hex2: string): number {
 	return (bright + 0.05) / (dark + 0.05);
 }
 
-// Choose '#000000' or '#ffffff' depending on which has higher contrast against the input color
 export function getContrastColor(hex: string): '#000000' | '#ffffff' {
 	const blackContrast = contrastRatio(hex, '#000000');
 	const whiteContrast = contrastRatio(hex, '#ffffff');
-	// Prefer white if contrast is equal or higher
 	return whiteContrast >= blackContrast ? '#ffffff' : '#000000';
 }
