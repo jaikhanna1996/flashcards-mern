@@ -7,6 +7,7 @@ import authRouter from './routes/authRouter';
 import deckRouter from './routes/deckRouter';
 import flashcardRouter from './routes/flashcardRouter';
 import errorHandler from './middleware/errorHandler';
+import serverless from 'serverless-http';
 
 dotenv.config();
 
@@ -21,17 +22,49 @@ app.use('/api/flashcards', flashcardRouter);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 4000;
-const HOST = process.env.HOST || '0.0.0.0';
-
-async function start() {
-  await mongooseConnect();
-  app.listen(Number(PORT), HOST, () => {
-    console.log(`Backend running on http://${HOST}:${PORT}`);
-  });
+// Connect to MongoDB outside handler to reuse connection
+let isConnected = false;
+async function connectDB() {
+  if (!isConnected) {
+    await mongooseConnect();
+    isConnected = true;
+  }
 }
 
-start().catch((err) => {
-  console.error('Failed to start server', err);
-  process.exit(1);
-});
+// Serverless handler for Vercel
+const serverlessHandler = async (req: any, res: any) => {
+  try {
+    await connectDB();    // ensure DB is connected
+    return app(req, res);
+  } catch (error) {
+    console.error('Serverless handler error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Export for Vercel
+export const handler = serverless(serverlessHandler);
+
+// Local development server
+const PORT = process.env.PORT || 3001;
+
+async function startServer() {
+  try {
+    await connectDB();
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+// Only start the server if this file is run directly (not imported)
+if (require.main === module) {
+  startServer();
+}
+
+export default app;
