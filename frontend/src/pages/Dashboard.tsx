@@ -135,9 +135,6 @@ export default function Dashboard() {
             {deckDesc(d) || (d.type === "default" ? "Default deck" : "Your deck")}
           </div>
         </div>
-        <div className="text-sm text-[color:var(--accent)] whitespace-nowrap">
-          {deckDue(d)} due
-        </div>
       </div>
       <div className="flex gap-2 items-center">
         {d.type !== "default" && (
