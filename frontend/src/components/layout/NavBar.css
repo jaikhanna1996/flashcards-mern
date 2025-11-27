@@ -1,25 +1,30 @@
+.nav-btn {
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  font-weight: 500;
+}
 
-.nav-login-btn {
-  background-color: var(--accent);
+/* LOGIN BUTTON */
+.nav-login {
+  background: var(--accent);
   color: var(--accent-foreground);
   border: none;
 }
 
-.nav-logout-btn {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
+.nav-login:hover {
+  filter: brightness(1.05);
+}
+
+/* LOGOUT BUTTON */
+.nav-logout {
+  background: transparent;
+  color: var(--accent);
   border: 1px solid var(--accent);
 }
 
-.nav-login-btn:hover,
-.nav-login-btn:focus {
-  filter: brightness(0.95);
-  outline: none;
-}
-
-.nav-logout-btn:hover,
-.nav-logout-btn:focus {
+.nav-logout:hover {
   background: var(--accent);
   color: var(--accent-foreground);
-  outline: none;
 }

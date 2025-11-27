@@ -122,55 +122,54 @@ export default function Dashboard() {
         <div className="text-sm text-red-600 p-3 rounded bg-red-50">{error}</div>
       )}
 
-      <section className="grid md:grid-cols-3 gap-4">
-        {decks.map((d) => (
-          <article
-            key={d.id || d._id}
-            className="p-4 bg-[color:var(--surface)] rounded shadow"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <div className="font-semibold">{deckTitle(d)}</div>
-                <div className="text-sm muted">
-                  {deckDesc(d) || (d.type === "default" ? "Default deck" : "Your deck")}
-                </div>
-              </div>
-              <div className="text-sm text-[color:var(--accent)]">
-                {deckDue(d)} due
-              </div>
-            </div>
-
-            <div className="flex gap-2 items-center">
-              {d.type !== "default" && (
-                <>
-                  <button
-                    className="btn btn-outline"
-                    type="button"
-                    aria-label="Edit deck"
-                    onClick={() => handleEditDeck(d)}
-                  >
-                    <FiEdit className="w-4 h-4" />
-                  </button>
-                  <button
-                    className="btn btn-outline"
-                    type="button"
-                    aria-label="Delete deck"
-                    onClick={() => handleDeleteDeck(d)}
-                  >
-                    <FiTrash2 className="w-4 h-4" />
-                  </button>
-                </>
-              )}
-              <Link
-                to={`/deck/${d.id || d._id}`}
-                className="ml-auto btn btn-primary"
-              >
-                Study
-              </Link>
-            </div>
-          </article>
-        ))}
-      </section>
+<section className="grid md:grid-cols-3 gap-4">
+  {decks.map((d) => (
+    <article
+      key={d.id || d._id}
+      className="p-4 bg-[color:var(--surface)] rounded shadow"
+    >
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <div className="font-semibold">{deckTitle(d)}</div>
+          <div className="text-sm muted">
+            {deckDesc(d) || (d.type === "default" ? "Default deck" : "Your deck")}
+          </div>
+        </div>
+        <div className="text-sm text-[color:var(--accent)] whitespace-nowrap">
+          {deckDue(d)} due
+        </div>
+      </div>
+      <div className="flex gap-2 items-center">
+        {d.type !== "default" && (
+          <>
+            <button
+              className="btn btn-outline"
+              type="button"
+              aria-label="Edit deck"
+              onClick={() => handleEditDeck(d)}
+            >
+              <FiEdit className="w-4 h-4" />
+            </button>
+            <button
+              className="btn btn-outline"
+              type="button"
+              aria-label="Delete deck"
+              onClick={() => handleDeleteDeck(d)}
+            >
+              <FiTrash2 className="w-4 h-4" />
+            </button>
+          </>
+        )}
+        <Link
+          to={`/deck/${d.id || d._id}`}
+          className={`btn btn-primary ${d.type === "default" ? "" : "ml-auto"}`}
+        >
+          Study
+        </Link>
+      </div>
+    </article>
+  ))}
+</section>
 
       {createDeckMode && (
         <div

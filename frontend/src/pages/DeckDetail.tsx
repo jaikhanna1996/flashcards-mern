@@ -290,9 +290,6 @@ export default function DeckDetail() {
             )}
 
             <div className="flex items-center gap-4 mt-2 text-sm">
-              <span className="px-2 py-1 rounded bg-accent/10 text-accent">
-                {deck.type === "default" ? "Default Deck" : "Your Deck"}
-              </span>
               <span className="text-muted">
                 {deck.flashcards?.length || 0} cards
               </span>
@@ -320,11 +317,9 @@ export default function DeckDetail() {
                 key={card._id}
                 onClick={() => handleCardSelect(card)}
                 className={`p-4 bg-surface rounded-lg shadow cursor-pointer transition-all 
-                hover:shadow-md overflow-hidden
+                hover:shadow-md overflow-hidden border-l-2
                 ${
-                  selectedCard?._id === card._id
-                    ? "ring-2 ring-accent bg-accent/5"
-                    : ""
+                  selectedCard?._id === card._id ? "border-l-accent bg-accent/5 ring-1 ring-accent/20" : "border-l-transparent hover:border-l-accent/50"
                 }`}
               >
                 <div className="font-medium text-text">
