@@ -15,6 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/decks', deckRouter);
@@ -22,7 +23,7 @@ app.use('/api/flashcards', flashcardRouter);
 
 app.use(errorHandler);
 
-// Connect to MongoDB outside handler to reuse connection
+// MongoDB connection
 let isConnected = false;
 async function connectDB() {
   if (!isConnected) {
@@ -31,40 +32,25 @@ async function connectDB() {
   }
 }
 
-// Serverless handler for Vercel
-const serverlessHandler = async (req: any, res: any) => {
-  try {
-    await connectDB();    // ensure DB is connected
-    return app(req, res);
-  } catch (error) {
-    console.error('Serverless handler error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
+// Middleware to ensure DB connection for every request
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
-// Export for Vercel
-export const handler = serverless(serverlessHandler);
+// Export wrapped app for Vercel serverless
+export const handler = serverless(app);
 
 // Local development server
 const PORT = process.env.PORT || 3001;
 
-async function startServer() {
-  try {
-    await connectDB();
-    
+if (process.env.NODE_ENV !== 'production') {
+  connectDB().then(() => {
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
     });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  }
-}
-
-// Only start the server if this file is run directly (not imported)
-if (require.main === module) {
-  startServer();
+  });
 }
 
 export default app;
