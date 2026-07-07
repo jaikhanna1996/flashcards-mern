@@ -19,6 +19,9 @@ export const protect = async (
     }
 
     if (!token) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Auth middleware: missing token. Authorization header=', req.headers.authorization);
+      }
       return res.status(401).json({
         success: false,
         message: 'Not authorized to access this route',
@@ -43,6 +46,9 @@ export const protect = async (
       req.user = user;
       next();
     } catch (error) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Auth middleware: token verification failed', error, 'Authorization header=', req.headers.authorization);
+      }
       return res.status(401).json({
         success: false,
         message: 'Not authorized to access this route',
