@@ -15,14 +15,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/api/health', healthRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/decks', deckRouter);
-app.use('/api/flashcards', flashcardRouter);
-
-app.use(errorHandler);
-
 // MongoDB connection
 let isConnected = false;
 async function connectDB() {
@@ -32,11 +24,23 @@ async function connectDB() {
   }
 }
 
-// Middleware to ensure DB connection for every request
+// Ensure DB connection before any route runs (required for Vercel serverless)
 app.use(async (req, res, next) => {
-  await connectDB();
-  next();
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
+
+// Routes
+app.use('/api/health', healthRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/decks', deckRouter);
+app.use('/api/flashcards', flashcardRouter);
+
+app.use(errorHandler);
 
 // Export wrapped app for Vercel serverless
 export const handler = serverless(app);
